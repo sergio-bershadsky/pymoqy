@@ -9,17 +9,17 @@ The goal is to make tool that will provide more user readable way for creating c
 Some example usage:
 
 ```
->>> user = User()
->>> print (~(user.hero.level > 1)) & (user.username == 'test')
+<<< q = Query()
+<<< q.find = ((~(q.profile.age > 20)) & (q.username == 'test'))()
+<<< print q.find
 
-result:
-
+>>>
 {
   "$and": [
     {
-      "hero.level": {
+      "profile.age": {
         "$not": {
-          "$gt": 1
+          "$gt": 20
         }
       }
     },
