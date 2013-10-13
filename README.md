@@ -3,9 +3,9 @@ pymoqy
 
 Yet another python-pymongo lib
 
-# Extremely magic
-# Extremely experimental
-# 95% pythonic mongo operators
+1. Extremely magic
+2. Extremely experimental
+3. 95% pythonic mongo operators
 
 The goal is to make tool that will provide more user readable way for creating complex mongodb queries
 
