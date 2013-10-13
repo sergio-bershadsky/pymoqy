@@ -28,9 +28,18 @@ class Node(object):
         except (TypeError, KeyError):
             return Node({'$or': [self.data, other.data]})
 
+    def __xor__(self, other):
+        try:
+            return Node({'$nor': self.data['$nor'] + [other.data]})
+        except (TypeError, KeyError):
+            return Node({'$nor': [self.data, other.data]})
+
     def __invert__(self):
         try:
             key, value = self.data.items()[0]
-            return Node({'$not': {key: value}})
+            return Node({key: {'$not': value}})
         except (AttributeError, IndexError):
             return Node({'$not': self.data})
+
+    def __call__(self):
+        return self.data

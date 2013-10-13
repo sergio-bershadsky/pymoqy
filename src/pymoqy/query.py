@@ -8,7 +8,6 @@ class Query(object):
 
     def __init__(self):
         self.update = {}
-        self.find = {}
 
     def __repr__(self):
         return str( (self.update, self.find) )
@@ -19,7 +18,6 @@ class Query(object):
         return getattr(Path(self), item)
 
     def __setattr__(self, item, value):
-        #print item, value
         if hasattr(self, item):
             object.__setattr__(self, item, value)
         else:

@@ -1,4 +1,5 @@
 from pymoqy.node import Node
+from pymoqy.utils import dict_update
 
 
 class Path(object):
@@ -10,6 +11,10 @@ class Path(object):
         self._data = list()
         self._query = query
 
+    def __repr__(self):
+        return '.'.join(self._data)
+    __str__ = __repr__
+
     def __getattr__(self, item):
         if item[:2] == '__':
             return object.__getattribute__(self, item)
@@ -20,13 +25,22 @@ class Path(object):
         if key[:1] == '_':
             object.__setattr__(self, key, value)
         else:
-            self._query and self._query.update.append({'$set': {str(self): value}})
+            self._query and dict_update(self._query.update, {'$set': {str(self) + '.' + key: value}})
 
-    def __repr__(self):
-        return '.'.join(self._data)
-    __str__ = __repr__
+    def __iadd__(self, other):
+        try:
+            self._query.update['$inc'][str(self)] += other
+        except KeyError:
+            self._query and dict_update(self._query.update, {'$inc': {str(self): other}})
+        return self
 
-    #comparison magic
+    def __isub__(self, other):
+        try:
+            self._query.update['$inc'][str(self)] -= other
+        except KeyError:
+            self._query and dict_update(self._query.update, {'$inc': {str(self): -other}})
+        return self
+
     def __gt__(self, other):
         return Node({str(self): {'$gt': other}})
 
@@ -46,3 +60,12 @@ class Path(object):
         if self._data[-1][:3] == 's__':
             return Node({'.'.join(self._data[:-1]): {'$%s' % self._data[-1][3:]: other}})
         return Node({str(self): {'$eq': other}})
+
+    def __ne__(self, other):
+        return Node({str(self): {'$ne': other}})
+
+    def __getitem__(self, item):
+        if type(item) is int:
+            return Node({str(self): {'$slice': item}})
+        else:
+            return Node({str(self): {'$slice': [item.start, item.stop]}})

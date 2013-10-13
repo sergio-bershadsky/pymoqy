@@ -28,6 +28,14 @@ class TestPath(unittest.TestCase):
         q = (Path().test == 1).data
         self.assertDictEqual(q, {'test': {'$eq': 1}})
 
+    def test_ne(self):
+        q = (Path().test != 1).data
+        self.assertDictEqual(q, {'test': {'$ne': 1}})
+
+    def test_not(self):
+        q = (~(Path().test == 1)).data
+        self.assertDictEqual(q, {'test': {'$not': {'$eq': 1}}})
+
     def test_mod(self):
         q = (Path().test % [4, 2]).data
         self.assertDictEqual(q, {'test': {'$mod': [4, 2]}})
@@ -39,6 +47,7 @@ class TestPath(unittest.TestCase):
     def test_not_in(self):
         q = (Path().test.s__nin == [1, 2, 3]).data
         self.assertDictEqual(q, {'test': {'$nin': [1, 2, 3]}})
+
 
 if __name__ == '__main__':
     unittest.main()
