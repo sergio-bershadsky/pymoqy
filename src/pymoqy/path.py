@@ -2,6 +2,12 @@ from pymoqy.node import Node
 from pymoqy.utils import dict_update
 
 
+
+class IgnoreValue(object):
+    pass
+
+
+
 class Path(object):
 
     _data = None
@@ -22,24 +28,27 @@ class Path(object):
         return self
 
     def __setattr__(self, key, value):
-        if key[:1] == '_':
+        if key[0] == '_':
             object.__setattr__(self, key, value)
-        else:
-            self._query and dict_update(self._query.update, {'$set': {str(self) + '.' + key: value}})
+        elif value is not IgnoreValue:
+            parent_key = str(self)
+            if parent_key:
+                key = parent_key + '.' + key
+            self._query and dict_update(self._query.update, {'$set': {key: value}})
 
     def __iadd__(self, other):
         try:
             self._query.update['$inc'][str(self)] += other
         except KeyError:
-            self._query and dict_update(self._query.update, {'$inc': {str(self): other}})
-        return self
+            self._query and dict_update(self._query.update, {'$inc': {str(self): +other}})
+        return IgnoreValue
 
     def __isub__(self, other):
         try:
             self._query.update['$inc'][str(self)] -= other
         except KeyError:
             self._query and dict_update(self._query.update, {'$inc': {str(self): -other}})
-        return self
+        return IgnoreValue
 
     def __gt__(self, other):
         return Node({str(self): {'$gt': other}})

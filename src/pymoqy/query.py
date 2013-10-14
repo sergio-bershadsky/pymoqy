@@ -17,11 +17,11 @@ class Query(object):
             return object.__getattribute__(self, item)
         return getattr(Path(self), item)
 
-    def __setattr__(self, item, value):
-        if hasattr(self, item):
-            object.__setattr__(self, item, value)
+    def __setattr__(self, key, value):
+        if key[0] == '_' or key in ('update', 'find'):
+            object.__setattr__(self, key, value)
         else:
-            setattr(Path(self), item, value)
+            setattr(Path(self), key, value)
 
     def __delattr__(self, item):
         delattr(Path(self), item)

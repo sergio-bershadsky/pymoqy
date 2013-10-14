@@ -11,6 +11,7 @@ The goal is to make tool that will provide more user readable way for creating c
 
 Some usage example:
 
+*find*
 ```
 >>> q = Query()
 >>> q.find = ((~(q.profile.age > 20)) & (q.username == 'test'))()
@@ -30,5 +31,24 @@ Some usage example:
       }
     }
   ]
+}
+```
+
+*update*
+```
+>>> q = Query()
+>>> q.username = 'Sergey'
+>>> q.profile.age = 28
+>>> q.visits += 1
+>>> print q.update
+
+{
+  "$set": {
+    "username": "Sergey",
+    "profile.age": 28
+  },
+  "$inc": {
+    "visits": 1
+  }
 }
 ```

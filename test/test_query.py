@@ -39,6 +39,13 @@ class TestQuery(unittest.TestCase):
         q.find = ((~(q.profile.age > 20)) & (q.username == 'test'))()
         self.assertDictEqual(q.find, {'$and': [{'profile.age': {'$not': {'$gt': 20}}}, {'username': {'$eq': 'test'}}]})
 
+    def test_example_2(self):
+        q = Query()
+        q.username = 'Sergey'
+        q.profile.age = 28
+        q.visits += 1
+        self.assertDictEqual(q.update, {'$set': {'username': 'Sergey', 'profile.age': 28}, '$inc': {'visits': 1}})
+
 
 if __name__ == '__main__':
     unittest.main()
