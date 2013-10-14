@@ -54,5 +54,6 @@ class TestPath(unittest.TestCase):
         q = (Path().test == r)()
         self.assertDictEqual(q, {'test': {'$regex': '[A-Za-z]+'}})
 
+
 if __name__ == '__main__':
     unittest.main()

@@ -36,6 +36,13 @@ class Path(object):
                 key = parent_key + '.' + key
             self._query and dict_update(self._query.update, {'$set': {key: value}})
 
+    def __delattr__(self, item):
+        parent_key = str(self)
+        if parent_key:
+            item = parent_key + '.' + item
+        self._query and dict_update(self._query.update, {'$unset': {item: ''}})
+
+
     def __iadd__(self, other):
         try:
             self._query.update['$inc'][str(self)] += other

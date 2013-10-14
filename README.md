@@ -101,6 +101,16 @@ operators and grouping:
 {'$and': [{'username': {'$eq': 'foobar'}}, {'age': {'$not': {'$lt': 10}}}]}
 ```
 
+**Example #5**
+```
+>>> q = Query()
+>>> del q.test
+>>> del q.foo
+>>> del q.bar
+q.update
+{'$unset': {'test': '', 'foo': '', 'bar': ''}}
+```
+
 Building update queries
 -----------------------
 

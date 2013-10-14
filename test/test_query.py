@@ -51,6 +51,12 @@ class TestQuery(unittest.TestCase):
         q.version += 1
         self.assertDictEqual(q.update, {'$set': {'username': 'nikitinsm', 'profile.name': 'Sergey', 'created': 1381733783, 'profile.age': 28, 'profile.surname': 'Nikitin', 'profile.gender': 'M', 'profile.dob': '1985-10-08', 'password': '5f4dcc3b5aa765d61d8327deb882cf99'}, '$inc': {'version': 1}})
 
+    def test_unset(self):
+        q = Query()
+        del q.test
+        del q.foo
+        del q.bar
+        self.assertDictEqual(q.update, {'$unset': {'test': '', 'foo': '', 'bar': ''}})
 
 if __name__ == '__main__':
     unittest.main()
