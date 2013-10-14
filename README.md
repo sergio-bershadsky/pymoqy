@@ -107,7 +107,7 @@ operators and grouping:
 >>> del q.test
 >>> del q.foo
 >>> del q.bar
-q.update
+>>> q.update
 {'$unset': {'test': '', 'foo': '', 'bar': ''}}
 ```
 
