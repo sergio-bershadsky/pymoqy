@@ -41,6 +41,7 @@ class Path(object):
             self._query.update['$inc'][str(self)] += other
         except KeyError:
             self._query and dict_update(self._query.update, {'$inc': {str(self): +other}})
+        #prevent for setting a value
         return IgnoreValue
 
     def __isub__(self, other):
@@ -48,6 +49,7 @@ class Path(object):
             self._query.update['$inc'][str(self)] -= other
         except KeyError:
             self._query and dict_update(self._query.update, {'$inc': {str(self): -other}})
+        #prevent for setting a value
         return IgnoreValue
 
     def __gt__(self, other):
@@ -68,13 +70,10 @@ class Path(object):
     def __eq__(self, other):
         if self._data[-1][:3] == 's__':
             return Node({'.'.join(self._data[:-1]): {'$%s' % self._data[-1][3:]: other}})
+        if hasattr(other, 'pattern'):
+            #TODO: options for regex
+            return Node({str(self): {'$regex': other.pattern}})
         return Node({str(self): {'$eq': other}})
 
     def __ne__(self, other):
         return Node({str(self): {'$ne': other}})
-
-    def __getitem__(self, item):
-        if type(item) is int:
-            return Node({str(self): {'$slice': item}})
-        else:
-            return Node({str(self): {'$slice': [item.start, item.stop]}})

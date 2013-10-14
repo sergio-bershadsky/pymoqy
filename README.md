@@ -102,6 +102,39 @@ operators and grouping:
 {'$and': [{'username': {'$eq': 'foobar'}}, {'age': {'$not': {'$lt': 10}}}]}
 ```
 
+Building update queries
+-----------------------
+
+**Example #4**
+```
+>>> q = Query()
+>>> q.username = 'nikitinsm'
+>>> q.password = hashlib.md5('password').hexdigest()
+>>> q.profile.name = 'Sergey'
+>>> q.profile.surname = 'Nikitin'
+>>> q.profile.age = 28
+>>> q.profile.gender = 'M'
+>>> q.profile.dob = datetime.datetime(1985, 10, 8).strftime('%Y-%m-%d')
+>>> q.created = 1381733783
+>>> q.version += 1
+>>> q.update
+{
+  "$set": {
+    "username": "nikitinsm",
+    "profile.name": "Sergey",
+    "created": 1381733783,
+    "profile.age": 28,
+    "profile.surname": "Nikitin",
+    "profile.gender": "M",
+    "profile.dob": "1985-10-08",
+    "password": "5f4dcc3b5aa765d61d8327deb882cf99"
+  },
+  "$inc": {
+    "version": 1
+  }
+}
+```
+
 
 
 

@@ -1,4 +1,5 @@
 import unittest
+import re
 from pymoqy.path import Path
 
 
@@ -48,6 +49,10 @@ class TestPath(unittest.TestCase):
         q = (Path().test.s__nin == [1, 2, 3])()
         self.assertDictEqual(q, {'test': {'$nin': [1, 2, 3]}})
 
+    def test_re(self):
+        r = re.compile('[A-Za-z]+')
+        q = (Path().test == r)()
+        self.assertDictEqual(q, {'test': {'$regex': '[A-Za-z]+'}})
 
 if __name__ == '__main__':
     unittest.main()

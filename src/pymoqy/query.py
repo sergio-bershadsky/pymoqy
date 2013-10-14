@@ -25,7 +25,7 @@ class Query(object):
         return getattr(Path(self), item)
 
     def __setattr__(self, key, value):
-        if key[0] == '_' or key in ('update', 'find'):
+        if key[0] == '_' or key in ('update', 'find', 'projection'):
             object.__setattr__(self, key, value)
         else:
             setattr(Path(self), key, value)
