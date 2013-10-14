@@ -41,7 +41,6 @@ Some usage example:
 >>> q.profile.age = 28
 >>> q.visits += 1
 >>> print q.update
-
 {
   "$set": {
     "username": "Sergey",
@@ -105,7 +104,7 @@ operators and grouping:
 Building update queries
 -----------------------
 
-**Example #4**
+**Example #1**
 ```
 >>> q = Query()
 >>> q.username = 'nikitinsm'
