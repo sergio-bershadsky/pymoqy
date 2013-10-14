@@ -61,10 +61,10 @@ Building find query
 -------------------
 operators and grouping:
 
-1. | - logical 'or' equals to mongodb '$or'
-2. & - logical 'and' equals to '$and'
-3. ^ - logical 'xor' equals to '$nor' (MongoDB does not have xor operator)
-4. ~ - logical 'invert' equals to '$not'
+1. '|' bin 'or' equals to mongodb '$or'
+2. '&' bin 'and' equals to '$and'
+3. '^' bin 'xor' equals to '$nor' (MongoDB does not have xor operator)
+4. '~' bin 'invert' equals to '$not'
 5. You can use parentheses for changing operator priority
 
 **Example #1**
