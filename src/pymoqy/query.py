@@ -4,7 +4,14 @@ from pymoqy.path import Path
 class Query(object):
 
     update = None
-    find = None
+
+    _find = None
+    @property
+    def find(self):
+        return self._find
+    @find.setter
+    def find(self, value):
+        self._find = value()
 
     def __init__(self):
         self.update = {}

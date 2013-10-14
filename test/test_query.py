@@ -1,4 +1,3 @@
-import json
 import unittest
 from pymoqy.query import Query
 
@@ -20,23 +19,23 @@ class TestQuery(unittest.TestCase):
 
     def test_basic_find(self):
         q = Query()
-        q.find = ((q.username == 'test') & ~(q.profile.gender == 1))()
+        q.find = ((q.username == 'test') & ~(q.profile.gender == 1))
         self.assertDictEqual(q.find, {'$and': [{'username': {'$eq': 'test'}}, {'profile.gender': {'$not': {'$eq': 1}}}]})
 
     def test_slice(self):
         q = Query()
-        q.find = q.array[1]()
+        q.find = q.array[1]
         self.assertDictEqual(q.find, {'array': {'$slice': 1}})
 
     def test_slice_2(self):
         q = Query()
-        q.find = q.array[1:10]()
+        q.find = q.array[1:10]
         self.assertDictEqual(q.find, {'array': {'$slice': [1, 10]}})
 
     #example tests
     def test_example_1(self):
         q = Query()
-        q.find = ((~(q.profile.age > 20)) & (q.username == 'test'))()
+        q.find = ((~(q.profile.age > 20)) & (q.username == 'test'))
         self.assertDictEqual(q.find, {'$and': [{'profile.age': {'$not': {'$gt': 20}}}, {'username': {'$eq': 'test'}}]})
 
     def test_example_2(self):
